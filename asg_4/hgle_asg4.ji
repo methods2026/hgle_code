@@ -1,1 +1,91 @@
 
+
+function main()
+
+    #println("Hi and welcome to the BMI population analyzer!")
+
+    #println("Please choose Metric or Imperial to begin.")
+    units = readline(stdin)
+
+    if unit == metric:
+      # ask user for a metric weight value 
+      print("Give me a weight in kilograms.")
+      weight = parse(Float64, readline(stdin))
+
+      # ask user for a metric height value 
+      print("Give me a height in cm.")
+      height = parse(Float64, readline(stdin))
+      # convert cm height to m height
+      height = height/100
+    else if unit == imperial:
+      # ask user for a imperial weight value 
+      print("Give me a weight in pounds.")
+      weight = parse(Float64, readline(stdin))
+
+      # ask user for a imperial height value 
+      print("Give me a height in inches.")
+      height = parse(Float64, readline(stdin))
+      
+    else:
+      println("You must choose Metric or Imperial.")
+
+    #need to calc BMI!
+
+    # define file names
+    measurement_file_name    = "/oscar/data/shared/ursa/synthetic_ri/demo_omop/measurement.csv"
+    detail_output_file_name  = "isarkar_sbp_detail_results.txt"
+    summary_output_file_name = "isarkar_sbp_summary_results.txt"
+
+    # create file handles
+    measurement_file    = open(measurement_file_name,    "r")
+    detail_output_file  = open(detail_output_file_name,  "w")
+    summary_output_file = open(summary_output_file_name, "a")
+
+    # create counters
+    hi_bmi_count = 0
+    in_bmi_count = 0
+
+    # read file
+    for line in eachline(measurement_file)
+
+        # split line on comma
+        line_part_array = split(line, ",")
+
+        # pull out pt_id and concept_id
+        pt_id           = line_part_array[2]
+        omop_concept_id = line_part_array[3]
+
+        # process lines that have BMI (concept_id 3038553)
+        if omop_concept_id == "3038553"
+
+            # retrieve value as a Float64
+            value = parse(Float64,line_part_array[9])
+
+            # increment appropriate counter
+            # and print out appropriate value to detail file
+            if value >= hi_target_sbp
+                hi_sbp_count += 1
+                print(detail_output_file, "$pt_id|$value|HI\n")
+            elseif value <= lo_target_sbp
+                lo_sbp_count += 1
+                print(detail_output_file, "$pt_id|$value|LO\n")
+            else
+                in_sbp_count += 1
+                print(detail_output_file, "$pt_id|$value|IN\n")
+            end
+
+
+        end
+
+    end
+
+    #print out summary
+    println("$target_sbp|$lo_target_sbp-$hi_target_sbp|$in_sbp_count|$hi_sbp_count|$lo_sbp_count")
+    print(summary_output_file, "$target_sbp|$lo_target_sbp-$hi_target_sbp|$in_sbp_count|$hi_sbp_count|$lo_sbp_count\n")
+
+
+end
+
+# call main function
+main()
+
