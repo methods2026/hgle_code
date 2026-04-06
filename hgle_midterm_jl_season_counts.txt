@@ -1,0 +1,12 @@
+Winter|M|177
+Winter|F|153
+Winter|M+F|330
+Spring|M|155
+Spring|F|134
+Spring|M+F|289
+Summer|M|133
+Summer|F|157
+Summer|M+F|290
+Fall|M|142
+Fall|F|136
+Fall|M+F|278
